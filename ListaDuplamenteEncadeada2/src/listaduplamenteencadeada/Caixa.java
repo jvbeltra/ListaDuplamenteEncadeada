@@ -14,8 +14,10 @@ public class Caixa {
     private Caixa anterior;
     private Caixa proxima;
 
-    public Caixa(Pessoa pessoa) {
+    public Caixa(Pessoa pessoa, Caixa anterior, Caixa proxima) {
         this.pessoa = pessoa;
+        this.anterior = anterior;
+        this.proxima = proxima;
     }
 
     public Pessoa getPessoa() {
