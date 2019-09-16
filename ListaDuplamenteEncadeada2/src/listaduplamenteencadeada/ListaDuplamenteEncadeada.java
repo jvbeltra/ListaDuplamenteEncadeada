@@ -121,10 +121,20 @@ public class ListaDuplamenteEncadeada {
     }
 
     public void inserirNoFim(Pessoa pessoa) {
-        Caixa last = new Caixa(pessoa, this.ultimo, null);
-        this.ultimo.setProxima(last);
-        this.ultimo = last;
-        this.cont++;
+        
+            
+        if(cont!=0){
+            Caixa last = new Caixa(pessoa, this.ultimo, null);
+            this.ultimo.setProxima(last);
+            this.ultimo = last;
+            this.cont++;
+        }else{
+            Caixa last = new Caixa(pessoa);
+            head = last;
+            ultimo = last;
+            this.cont++;
+        }
+        
     }
 
     public void excluirAtual() {
@@ -141,10 +151,20 @@ public class ListaDuplamenteEncadeada {
     }
 
     public void excluirPrim() {
-        Caixa first = head.getProxima();
-        first.setAnterior(null);
-        head = first;
-        this.cont--;
+        
+        
+        if(cont == 1){
+            head = null;
+            ultimo = null;
+        }else if(cont>1){    
+            Caixa first = head.getProxima();
+            first.setAnterior(null);
+            head = first;
+            this.cont--;
+        }else{
+            System.out.println("Nada na lista");
+        }
+        
     }
 
     public void excluirUlt() {
@@ -182,7 +202,7 @@ public class ListaDuplamenteEncadeada {
         this.irParaPrimeiro();
 //        if (this.cursor != null) {
             Caixa aux = head;
-            System.out.println(aux);
+            //System.out.println(aux);
             while (aux != null) {
                 System.out.print(aux.getPessoa().getNome() + ", ");
                 aux = aux.getProxima();
@@ -193,7 +213,25 @@ public class ListaDuplamenteEncadeada {
         
     }
     
-   
+   public void acessaLista(){
+        cursor = head;
+        System.out.println("InicioLista"); 
+        if(cursor!=null){
+            System.out.println(cursor.getPessoa().getNome());
+            for(int i = 0; i <cont; i++){
+            cursor = cursor.getProxima();
+            if(cursor!= null){    
+                
+                System.out.println(cursor.getPessoa().getNome());
+                }
+              
+            }
+        
+        } 
+        
+       System.out.println("FimLista"); 
+        
+    }
 
     public static void main(String[] args) {
         Pessoa pessoa1 = new Pessoa("Joao", 1);
@@ -206,7 +244,14 @@ public class ListaDuplamenteEncadeada {
         lista.inserirNaFrente(pessoa2);
         lista.inserirNoFim(pessoa3);
         lista.inserirNaFrente(pessoa4);
-        lista.listarCaixas();
+        lista.excluirUlt();
+        lista.excluirUlt();
+        lista.excluirUlt();
+        lista.excluirUlt();
+        lista.inserirNaFrente(pessoa2);
+        lista.excluirUlt();
+        lista.inserirNoFim(pessoa3);
+        lista.acessaLista();
     }
 
 }
