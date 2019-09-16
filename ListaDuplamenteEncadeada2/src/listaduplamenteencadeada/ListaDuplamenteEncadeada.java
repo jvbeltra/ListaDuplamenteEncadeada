@@ -11,6 +11,7 @@ package listaduplamenteencadeada;
  */
 public class ListaDuplamenteEncadeada {
 
+    private int cont;
     private Caixa head;
     private Caixa cursor;
     private Caixa ultimo;
@@ -20,66 +21,114 @@ public class ListaDuplamenteEncadeada {
         this.cursor = head;
         this.ultimo = head;
     }
+    
+    public ListaDuplamenteEncadeada (){
+       
+    }
 
     private void irParaPrimeiro() {
         this.cursor = this.head;
     }
-    
-    private void irParaUltimo(){
+
+    private void irParaUltimo() {
         this.cursor = this.ultimo;
     }
-    
-    private void retrocederKPosicoes(int k){
+
+    private void retrocederKPosicoes(int k) {
         Caixa atual = acessaAtual();
-        
     }
 
-    public void InserirAposAtual(Pessoa pessoa) {
-        //melhorar isso aqui, não tenho certeza se eh assim
-        Caixa nova = new Caixa(pessoa, this.head.getAnterior(), this.head.getProxima());
-        this.cursor = nova ;
+    private void avancaKPosicoes(int k) {
+        int intCont = 0;
+
+        while (intCont != k && cursor.getProxima() != null) {
+            cursor = cursor.getProxima();
+            intCont++;
+        }
+
+        if (intCont == k && cursor.getProxima() == null) {
+            System.out.println("Limite de posições atingido");
+        }
+    }
+
+    public void inserirAposAtual(Pessoa pessoa) {
+        Caixa nova = new Caixa(pessoa);
+        nova.setAnterior(cursor);
+        nova.setProxima(this.cursor.getProxima());
+        this.cursor = nova;
+        this.cont++;
     }
 
     public void inserirNaFrente(Pessoa pessoa) {
         Caixa first = new Caixa(pessoa, null, this.head);
-        this.head.setAnterior(first);
+        if (this.cont !=0) this.head.setAnterior(first);
         this.head = first;
+        this.head.setAnterior(ultimo);
+        this.cont++;
     }
-    
-    public void inserirNoFim(Pessoa pessoa){
+
+    public void inserirNoFim(Pessoa pessoa) {
         Caixa last = new Caixa(pessoa, this.ultimo, null);
         this.ultimo.setProxima(last);
         this.ultimo = last;
+        this.cont++;
     }
 
-    public void ExcluirAtual() {
-        
+    public void excluirAtual() {
+        if (this.cont != 0) {
+            this.cursor.setPessoa(null);
+            if (this.cursor != this.head) {
+                this.cursor  = this.cursor.getAnterior();
+            } else {
+                this.cursor = this.cursor.getProxima();
+            }
+            this.cont--;
+        } else {
+            System.out.println("Lista vazia!");
+        }
     }
-    
-    public void ExcluirPrim(){
+
+    public void excluirPrim() {
         Caixa first = head.getProxima();
         first.setAnterior(null);
         head = first;
+        this.cont--;
     }
 
-    public void ExcluirUlt() {
-
+    public void excluirUlt() {
+        if (cont != 0) {
+            ultimo.getAnterior().setProxima(null);
+            ultimo.setAnterior(ultimo.getAnterior().getAnterior());
+            this.cont--;
+        } else {
+            System.out.println("Lista vazia!");
+        }
     }
 
     public Caixa acessaAtual() {
         return this.cursor;
     }
+
+    public boolean buscar(int codigo) {
+        cursor = head;
+        while (cursor.getProxima() != null) {
+            if (codigo == cursor.getPessoa().getCodigo()) {
+                return true;
+            } else {
+                cursor = cursor.getProxima();
+            }
+        }
+        return ultimo.getPessoa().getCodigo() == codigo;
+    }
     
-    public boolean buscar(int codigo){
-       cursor = head;
-       while(cursor.getProxima()!=null){
-           if(codigo == cursor.getPessoa().getCodigo()){
-               return true;
-           }else{
-               cursor=cursor.getProxima();
-           }
-       }
-       return ultimo.getPessoa().getCodigo()==codigo; 
+    public void listarCaixas(){
+        this.irParaPrimeiro();
+        while(this.cursor.getProxima() != null){
+            System.out.print(this.cursor.getPessoa().getNome()+", ");
+            this.cursor = this.cursor.getProxima();
+        }
+        System.out.println(this.cursor.getPessoa().getNome());
+
     }
 
     public static void main(String[] args) {
@@ -89,8 +138,20 @@ public class ListaDuplamenteEncadeada {
         Pessoa pessoa4 = new Pessoa("Paulo", 4);
         Pessoa pessoa5 = new Pessoa("Cleiton", 5);
         Pessoa pessoa6 = new Pessoa("Frederico", 6);
-
         ListaDuplamenteEncadeada lista = new ListaDuplamenteEncadeada(pessoa1);
+        lista.inserirNaFrente(pessoa2);
+        lista.listarCaixas();
+        lista.inserirNaFrente(pessoa3);
+        lista.listarCaixas();
+        lista.inserirNoFim(pessoa5);
+        lista.listarCaixas();
+        lista.excluirPrim();
+        lista.listarCaixas();
+        lista.excluirUlt();
+        lista.listarCaixas();
+        lista.excluirUlt();
+        lista.listarCaixas();
+        
     }
 
 }

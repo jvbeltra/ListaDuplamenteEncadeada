@@ -19,6 +19,10 @@ public class Caixa {
         this.anterior = anterior;
         this.proxima = proxima;
     }
+    
+    public Caixa(Pessoa pessoa){
+        this.pessoa = pessoa;
+    }
 
     public Pessoa getPessoa() {
         return pessoa;
