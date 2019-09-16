@@ -32,7 +32,15 @@ public class ListaDuplamenteEncadeada {
     }
 
     private void retrocederKPosicoes(int k) {
-        Caixa atual = acessaAtual();
+        int intCont = 0;
+        
+        while(intCont!=k && cursor.getAnterior()!= null){
+            cursor = cursor.getAnterior();
+            intCont++;
+        }
+        if (intCont!= k && cursor.getAnterior() == null){
+            System.out.println("Limite de posições atingido");
+        }
     }
 
     private void avancaKPosicoes(int k) {
@@ -47,12 +55,25 @@ public class ListaDuplamenteEncadeada {
             System.out.println("Limite de posições atingido");
         }
     }
-
+    
+    public void inserirAntesAtual(Pessoa pessoa){
+        Caixa nova = new Caixa(pessoa);
+        nova.setProxima(cursor);
+        if(this.cursor.getAnterior()!=null){
+            nova.setAnterior(this.cursor.getAnterior());
+        }else{
+            nova.setAnterior(null);
+            head = nova;
+        }
+        
+    }
+    
+   
     public void inserirAposAtual(Pessoa pessoa) {
         Caixa nova = new Caixa(pessoa);
         nova.setAnterior(cursor);
-        System.out.println(this.cursor.getPessoa().getNome() + "<1");
-        System.out.println(nova.getPessoa().getNome() + "<1");
+        //System.out.println(this.cursor.getPessoa().getNome() + "<1");
+        //System.out.println(nova.getPessoa().getNome() + "<1");
         
         if (this.cursor.getProxima() != null) {
             nova.setProxima(this.cursor.getProxima());
@@ -63,7 +84,24 @@ public class ListaDuplamenteEncadeada {
         this.cursor = nova;
         this.cont++;
     }
-
+    
+    public void inserirNaPosicao(Pessoa pessoa, int k){
+        Caixa nova = new Caixa(pessoa);
+        cursor = head;
+        if(k<= cont){
+            for(int i= 1; i<=k; i++){
+                cursor = cursor.getProxima();
+            }
+            nova.setAnterior(cursor.getAnterior());
+            nova.setProxima(cursor);
+            cursor.setAnterior(nova);
+            cont++;
+        }else{
+            System.out.println("Limite de posições atingido");
+        }
+        
+    }
+    
     public void inserirNaFrente(Pessoa pessoa) {
         Caixa first = new Caixa(pessoa, null, this.head);
         if (this.cont != 0) {
@@ -154,6 +192,8 @@ public class ListaDuplamenteEncadeada {
 //            }
         
     }
+    
+   
 
     public static void main(String[] args) {
         Pessoa pessoa1 = new Pessoa("Joao", 1);
@@ -164,25 +204,9 @@ public class ListaDuplamenteEncadeada {
         Pessoa pessoa6 = new Pessoa("Frederico", 6);
         ListaDuplamenteEncadeada lista = new ListaDuplamenteEncadeada(pessoa1);
         lista.inserirNaFrente(pessoa2);
-        lista.inserirNaFrente(pessoa3);
-        lista.inserirNoFim(pessoa4);
-        lista.inserirNoFim(pessoa5);
-        lista.inserirNoFim(pessoa6);
-        lista.excluirPrim();
-        lista.excluirUlt();
-        lista.excluirUlt();
-        lista.excluirUlt();
-        lista.excluirUlt();
-        lista.excluirUlt();
-        lista.excluirUlt();
-        lista.inserirNaFrente(pessoa6);
-        lista.inserirNaFrente(pessoa1);
-        lista.inserirAposAtual(pessoa5);
-//        lista.inserirAposAtual(pessoa4);
-        lista.inserirAposAtual(pessoa3);
+        lista.inserirNoFim(pessoa3);
+        lista.inserirNaFrente(pessoa4);
         lista.listarCaixas();
-        System.out.println("\n"+lista.cursor.getPessoa().getNome() + " " + lista.head.getPessoa().getNome() + " " + lista.ultimo.getPessoa().getNome() + " " + lista.cont);
-
     }
 
 }
