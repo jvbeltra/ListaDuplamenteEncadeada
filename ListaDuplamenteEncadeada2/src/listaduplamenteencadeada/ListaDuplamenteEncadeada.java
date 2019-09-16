@@ -20,10 +20,7 @@ public class ListaDuplamenteEncadeada {
         this.head = new Caixa(pessoa, null, null);
         this.cursor = head;
         this.ultimo = head;
-    }
-    
-    public ListaDuplamenteEncadeada (){
-       
+        this.cont++;
     }
 
     private void irParaPrimeiro() {
@@ -54,16 +51,34 @@ public class ListaDuplamenteEncadeada {
     public void inserirAposAtual(Pessoa pessoa) {
         Caixa nova = new Caixa(pessoa);
         nova.setAnterior(cursor);
-        nova.setProxima(this.cursor.getProxima());
+        System.out.println(this.cursor.getPessoa().getNome() + "<1");
+        System.out.println(nova.getPessoa().getNome() + "<1");
+        
+        if (this.cursor.getProxima() != null) {
+            nova.setProxima(this.cursor.getProxima());
+        } else {
+            nova.setProxima(null);
+        }
+        
         this.cursor = nova;
         this.cont++;
     }
 
     public void inserirNaFrente(Pessoa pessoa) {
         Caixa first = new Caixa(pessoa, null, this.head);
-        if (this.cont !=0) this.head.setAnterior(first);
+        if (this.cont != 0) {
+            this.head.setAnterior(first);
+        }
         this.head = first;
-        this.head.setAnterior(ultimo);
+        this.head.setAnterior(null);
+        if (this.ultimo == null && this.head != null) {
+            this.cursor = this.head;
+            if (this.head.getProxima() != null) {
+                this.ultimo = this.head.getProxima();
+            } else {
+                this.ultimo = head;
+            }
+        }
         this.cont++;
     }
 
@@ -76,9 +91,8 @@ public class ListaDuplamenteEncadeada {
 
     public void excluirAtual() {
         if (this.cont != 0) {
-            this.cursor.setPessoa(null);
             if (this.cursor != this.head) {
-                this.cursor  = this.cursor.getAnterior();
+                this.cursor = this.cursor.getAnterior();
             } else {
                 this.cursor = this.cursor.getProxima();
             }
@@ -97,8 +111,13 @@ public class ListaDuplamenteEncadeada {
 
     public void excluirUlt() {
         if (cont != 0) {
-            ultimo.getAnterior().setProxima(null);
-            ultimo.setAnterior(ultimo.getAnterior().getAnterior());
+            if (ultimo.getAnterior() == null) {
+                head = null;
+                ultimo = head;
+            } else {
+                ultimo = ultimo.getAnterior();
+                ultimo.setProxima(null);
+            }
             this.cont--;
         } else {
             System.out.println("Lista vazia!");
@@ -120,15 +139,20 @@ public class ListaDuplamenteEncadeada {
         }
         return ultimo.getPessoa().getCodigo() == codigo;
     }
-    
-    public void listarCaixas(){
-        this.irParaPrimeiro();
-        while(this.cursor.getProxima() != null){
-            System.out.print(this.cursor.getPessoa().getNome()+", ");
-            this.cursor = this.cursor.getProxima();
-        }
-        System.out.println(this.cursor.getPessoa().getNome());
 
+    public void listarCaixas() {
+        this.irParaPrimeiro();
+//        if (this.cursor != null) {
+            Caixa aux = head;
+            System.out.println(aux);
+            while (aux != null) {
+                System.out.print(aux.getPessoa().getNome() + ", ");
+                aux = aux.getProxima();
+            }
+//            if (this.cursor.getPessoa() != null) {
+//                System.out.println(this.cursor.getPessoa().getNome());
+//            }
+        
     }
 
     public static void main(String[] args) {
@@ -140,18 +164,25 @@ public class ListaDuplamenteEncadeada {
         Pessoa pessoa6 = new Pessoa("Frederico", 6);
         ListaDuplamenteEncadeada lista = new ListaDuplamenteEncadeada(pessoa1);
         lista.inserirNaFrente(pessoa2);
-        lista.listarCaixas();
         lista.inserirNaFrente(pessoa3);
-        lista.listarCaixas();
+        lista.inserirNoFim(pessoa4);
         lista.inserirNoFim(pessoa5);
-        lista.listarCaixas();
+        lista.inserirNoFim(pessoa6);
         lista.excluirPrim();
-        lista.listarCaixas();
         lista.excluirUlt();
-        lista.listarCaixas();
         lista.excluirUlt();
+        lista.excluirUlt();
+        lista.excluirUlt();
+        lista.excluirUlt();
+        lista.excluirUlt();
+        lista.inserirNaFrente(pessoa6);
+        lista.inserirNaFrente(pessoa1);
+        lista.inserirAposAtual(pessoa5);
+//        lista.inserirAposAtual(pessoa4);
+        lista.inserirAposAtual(pessoa3);
         lista.listarCaixas();
-        
+        System.out.println("\n"+lista.cursor.getPessoa().getNome() + " " + lista.head.getPessoa().getNome() + " " + lista.ultimo.getPessoa().getNome() + " " + lista.cont);
+
     }
 
 }
