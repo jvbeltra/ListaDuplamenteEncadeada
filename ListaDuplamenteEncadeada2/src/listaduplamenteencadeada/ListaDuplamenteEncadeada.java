@@ -7,7 +7,7 @@ package listaduplamenteencadeada;
 
 /**
  *
- * @author Joao
+ * @author Joao Beltramini e Caio Noguerol
  */
 public class ListaDuplamenteEncadeada {
 
@@ -16,21 +16,28 @@ public class ListaDuplamenteEncadeada {
     private Caixa cursor;
     private Caixa ultimo;
 
+    /**
+     * Construtor da lista duplamente encadeada
+     * @param pessoa
+     */
     public ListaDuplamenteEncadeada(Pessoa pessoa) {
         this.head = new Caixa(pessoa, null, null);
         this.cursor = head;
         this.ultimo = head;
         this.cont++;
     }
-
+    
+    //Aponta o cursor para o primeiro da lista
     private void irParaPrimeiro() {
         this.cursor = this.head;
     }
-
+   
+    //Aponta o cursor para o ultimo da lista
     private void irParaUltimo() {
         this.cursor = this.ultimo;
     }
-
+    
+    //Retrocede o cursor k posicoes a partir da posicao atual
     private void retrocederKPosicoes(int k) {
         if (k >= 0) {
             for (int i = 0; i < k; i++) {
@@ -46,7 +53,8 @@ public class ListaDuplamenteEncadeada {
         }
 
     }
-
+    
+    //Avanca o cursor k posicoes a partir da posicao atual
     private void avancaKPosicoes(int k) {
         if (k >= 0) {
             for (int i = 0; i < k; i++) {
@@ -63,6 +71,10 @@ public class ListaDuplamenteEncadeada {
 
     }
 
+    /**
+     * Insere uma pessoa em uma caixa antes da posicao atual do cursor
+     * @param pessoa
+     */
     public void inserirAntesAtual(Pessoa pessoa) {
         Caixa nova = new Caixa(pessoa);
         if (cont > 1) {
@@ -85,6 +97,10 @@ public class ListaDuplamenteEncadeada {
 
     }
 
+    /**
+     * Insere uma pessoa em uma caixa após a posicao atual do cursor
+     * @param pessoa
+     */
     public void inserirAposAtual(Pessoa pessoa) {
         
         if (cont > 1) {
@@ -107,6 +123,11 @@ public class ListaDuplamenteEncadeada {
 
     }
 
+    /**
+     * Insere uma pessoa numa caixa na posicao k da lista
+     * @param pessoa
+     * @param k
+     */
     public void inserirNaPosicao(Pessoa pessoa, int k) {
         Caixa nova = new Caixa(pessoa);
         irParaPrimeiro();
@@ -126,6 +147,10 @@ public class ListaDuplamenteEncadeada {
         
     }
 
+    /**
+     * Insere uma pessoa numa caixa na primeira posicao da lista
+     * @param pessoa
+     */
     public void inserirNaFrente(Pessoa pessoa) {
         if (cont != 0) {
             Caixa first = new Caixa(pessoa, null, this.head);
@@ -143,6 +168,10 @@ public class ListaDuplamenteEncadeada {
 //      
     }
 
+    /**
+     * Insere uma pessoa em uma caixa na ultima posicao da lista
+     * @param pessoa
+     */
     public void inserirNoFim(Pessoa pessoa) {
 
         if (cont != 0) {
@@ -161,6 +190,9 @@ public class ListaDuplamenteEncadeada {
 
     }
 
+    /**
+     * Exclui a caixa da lista na posicao atual do cursor
+     */
     public void excluirAtual() {
         if(cont!=0){
             if(acessaAtual()== head){
@@ -181,6 +213,9 @@ public class ListaDuplamenteEncadeada {
         }
     }
 
+    /**
+     * Exclui a caixa na primeira posicao da lista
+     */
     public void excluirPrim() {
 
         if (cont == 1) {
@@ -199,6 +234,9 @@ public class ListaDuplamenteEncadeada {
 
     }
 
+    /**
+     * Exclui a caixa na ultima posicao da lista
+     */
     public void excluirUlt() {
         if (cont != 0) {
             if (ultimo.getAnterior() == null) {
@@ -219,14 +257,24 @@ public class ListaDuplamenteEncadeada {
         }
     }
 
+    /**
+     * Acessa a caixa na posicao atual do cursor
+     * @return
+     */
     public Caixa acessaAtual() {
         return this.cursor;
     }
 
+    /**
+     * Busca uma pessoa pelo seu codigo na lista e retorna boolean
+     * @param codigo
+     * @return
+     */
     public boolean buscar(int codigo) {
         cursor = head;
         while (cursor.getProxima() != null) {
             if (codigo == cursor.getPessoa().getCodigo()) {
+                
                 return true;
             } else {
                 cursor = cursor.getProxima();
@@ -235,6 +283,9 @@ public class ListaDuplamenteEncadeada {
         return ultimo.getPessoa().getCodigo() == codigo;
     }
 
+    /**
+     * Imprime todos os elementos da lista pelo nome
+     */
     public void acessaLista() {
         cursor = head;
         System.out.println("InicioLista");
@@ -258,6 +309,10 @@ public class ListaDuplamenteEncadeada {
 
     }
 
+    /**
+     *
+     * @param args
+     */
     public static void main(String[] args) {
         Pessoa pessoa1 = new Pessoa("Joao", 1);
         Pessoa pessoa2 = new Pessoa("Caio", 2);
@@ -266,24 +321,7 @@ public class ListaDuplamenteEncadeada {
         Pessoa pessoa5 = new Pessoa("Cleiton", 5);
         Pessoa pessoa6 = new Pessoa("Frederico", 6);
         ListaDuplamenteEncadeada lista = new ListaDuplamenteEncadeada(pessoa1);
-        lista.inserirAntesAtual(pessoa6);
-        lista.inserirAposAtual(pessoa5);
-        lista.inserirNoFim(pessoa2);
-        lista.inserirNaFrente(pessoa3);
-        lista.inserirNaPosicao(pessoa1, 2);
-        lista.excluirAtual();
-        lista.excluirUlt();
-        lista.excluirUlt();
-        lista.excluirPrim();
-        lista.excluirAtual();
-        lista.excluirAtual();
-        lista.excluirUlt();
-        lista.inserirAntesAtual(pessoa6);
-        lista.inserirAposAtual(pessoa5);
-        lista.inserirNoFim(pessoa2);
-        lista.inserirNaFrente(pessoa3);
-        lista.inserirNaPosicao(pessoa1, 2);
-          
+        
         lista.acessaLista();
     }
 

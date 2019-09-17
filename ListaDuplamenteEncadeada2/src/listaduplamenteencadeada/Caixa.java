@@ -7,7 +7,7 @@ package listaduplamenteencadeada;
 
 /**
  *
- * @author Joao
+ * @author Joao Beltramini e Caio Noguerol
  */
 public class Caixa {
     private Pessoa pessoa;

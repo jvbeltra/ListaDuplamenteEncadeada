@@ -7,7 +7,7 @@ package listaduplamenteencadeada;
 
 /**
  *
- * @author Joao
+ * @author Joao Beltramini e Caio Noguerol
  */
 public class Pessoa {
     private String nome;
